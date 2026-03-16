@@ -1,51 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Pusat Komando Judul</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <title>Pusat Komando Judul LCS</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f4f4; text-align: center; }
-        .box { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        button { background: #27ae60; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; width: 100%; }
-        button:hover { background: #219150; }
-        #status { margin-top: 15px; font-size: 14px; color: #666; }
+        /* Pengaturan Dasar Dasar agar Responsif */
+        * { box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            padding: 15px; 
+            background: #121212; /* Warna gelap agar nyaman di mata */
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .box { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 15px; 
+            width: 100%;
+            max-width: 450px; /* Lebar maksimal di PC, tapi fleksibel di HP */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+            text-align: center;
+        }
+
+        h2 { 
+            margin-top: 0; 
+            font-size: 1.4rem; 
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #inputs {
+            margin-bottom: 15px;
+        }
+
+        input { 
+            width: 100%; /* Lebar penuh layar HP */
+            padding: 14px; 
+            margin: 8px 0; 
+            border: 2px solid #eee; 
+            border-radius: 10px; 
+            font-size: 16px; /* Mencegah zoom otomatis pada iPhone */
+            transition: 0.3s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #27ae60;
+            background: #f9fffb;
+        }
+
+        button { 
+            background: #27ae60; 
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            cursor: pointer; 
+            border-radius: 10px; 
+            font-size: 16px;
+            font-weight: bold; 
+            width: 100%; 
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.2);
+            transition: transform 0.1s, background 0.3s;
+        }
+
+        button:active {
+            transform: scale(0.98); /* Efek membal saat ditekan di HP */
+            background: #219150;
+        }
+
+        #status { 
+            margin-top: 20px; 
+            font-size: 14px; 
+            font-weight: bold;
+            color: #555;
+            min-height: 20px;
+        }
+
+        /* Tambahan agar terlihat profesional di HP */
+        .footer {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
+
     <div class="box">
-        <h2>Update Judul Hari Ini</h2>
+        <h2>🚀 BANTU ADMIN UPDATE JUDUL KONTEN LCS HARI INI</h2>
         <div id="inputs">
-            <input type="text" class="judul" placeholder="Judul 1">
-            <input type="text" class="judul" placeholder="Judul 2">
-            <input type="text" class="judul" placeholder="Judul 3">
-            <input type="text" class="judul" placeholder="Judul 4">
+            <input type="text" class="judul" placeholder="Tulis Judul Konten 1...">
+            <input type="text" class="judul" placeholder="Tulis Judul Konten 2 ...">
+            <input type="text" class="judul" placeholder="Tulis Judul Konten 3 (kosongkan jika tidak ada).">
+            <input type="text" class="judul" placeholder="Tulis Judul Konten 4 (kosongkan jika tidak ada)">
         </div>
-        <button onclick="kirimData()">UPDATE SEMUA WEBSITE</button>
+        
+        <button onclick="kirimData()">UPDATE SEKARANG!!</button>
+        
         <div id="status"></div>
+        <div class="footer">Sistem Penderasan Informasi 2026</div>
     </div>
 
     <script>
         async function kirimData() {
             const status = document.getElementById('status');
             const inputs = document.querySelectorAll('.judul');
-            const listJudul = Array.from(inputs).map(i => i.value).filter(v => v !== "");
+            const listJudul = Array.from(inputs).map(i => i.value.trim()).filter(v => v !== "");
             
-            if(listJudul.length === 0) return alert("Isi minimal satu judul!");
+            if(listJudul.length === 0) {
+                alert("Isi minimal satu judul!");
+                return;
+            }
 
-            status.innerText = "Sedang mengirim...";
+            status.style.color = "#333";
+            status.innerText = "⏳ Memproses pembaruan...";
             
-            // GANTI DENGAN WEB APP URL KAMU
             const url = "https://script.google.com/macros/s/AKfycbzBRXwcAkJBPLvnvOdFuWKqag-XBq2U81kYBx3LyOKGCM0Sqx8WileVfvMa1T6BkEQH6A/exec";
 
             try {
+                // Menambahkan mode no-cors jika script google tidak mengizinkan CORS
+                // Namun untuk POST ke GAS biasanya butuh redirect
                 await fetch(url, {
                     method: 'POST',
+                    mode: 'no-cors', // Penting agar tidak error CORS di browser tertentu
                     body: JSON.stringify({ judul: listJudul })
                 });
-                status.innerText = "✅ BERHASIL! 4 website telah terupdate.";
-                inputs.forEach(i => i.value = ""); // Bersihkan input
+
+                status.style.color = "#27ae60";
+                status.innerText = "✅ BERHASIL! Judul telah diperbarui.";
+                
+                // Opsional: bersihkan input setelah berhasil
+                // inputs.forEach(i => i.value = ""); 
             } catch (e) {
-                status.innerText = "❌ Gagal mengirim. Cek koneksi.";
+                status.style.color = "#e74c3c";
+                status.innerText = "❌ Gagal. Pastikan internet aktif.";
+                console.error(e);
             }
         }
     </script>
